@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="co.test.myhood">
 
     <application
@@ -10,7 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".presentation.MainActivity">
+        <activity android:name=".presentation.MainActivity"
+            >
+            <nav-graph android:value="@navigation/nav_graph"
+                tools:ignore="ManifestResource" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
