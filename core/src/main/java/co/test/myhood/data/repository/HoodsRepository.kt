@@ -8,7 +8,7 @@ class HoodsRepository constructor(
     private val localHoodsDataSource: HoodsDataSource
 ) {
 
-    fun getHoodList(): List<Hood> {
+    suspend fun getHoodList(): List<Hood> {
         //TODO get it from API or DB?
         return remoteHoodsDataSource.getHoods()
     }

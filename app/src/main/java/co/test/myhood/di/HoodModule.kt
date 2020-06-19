@@ -15,7 +15,7 @@ import dagger.hilt.android.components.FragmentComponent
 import javax.inject.Qualifier
 
 @Module(includes = [Declarations::class])
-@InstallIn(ActivityComponent::class, FragmentComponent::class)
+@InstallIn(ActivityComponent::class)
 class HoodModule {
 
     @Provides
@@ -29,7 +29,7 @@ class HoodModule {
         HoodsRepository(networkHoodDataSource, localHoodDataSource)
 
     @Module
-    @InstallIn(ActivityComponent::class, FragmentComponent::class)
+    @InstallIn(ActivityComponent::class)
     interface Declarations {
 
         @RemoteHoodDataSource
