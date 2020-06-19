@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/listHoodFragment"
-        android:name="co.test.myhood.presentation.hoodList.ListHoodFragment"
+        android:name="co.test.myhood.presentation.hoodList.HoodListFragment"
         android:label="ListHoodFragment"
         tools:layout="@layout/fragment_list_hood"/>
 

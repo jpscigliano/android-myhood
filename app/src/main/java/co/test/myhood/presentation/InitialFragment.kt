@@ -7,10 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import co.test.myhood.R
+import dagger.hilt.android.AndroidEntryPoint
 
 class InitialFragment : Fragment() {
-
-
     private val navController by lazy {
         findNavController()
     }
