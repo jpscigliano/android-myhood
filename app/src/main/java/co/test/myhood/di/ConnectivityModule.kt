@@ -11,6 +11,8 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.Retrofit.Builder
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit.MINUTES
+import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Qualifier
 
 @Module
@@ -18,7 +20,7 @@ import javax.inject.Qualifier
 class ConnectivityModule {
 
     @Provides
-    fun provideOkHttpClient() = OkHttpClient()
+    fun provideOkHttpClient() = OkHttpClient().newBuilder().callTimeout(10,MINUTES).build()
 
     @DigginAPI
     @Provides

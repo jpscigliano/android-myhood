@@ -2,21 +2,24 @@ package co.test.myhood.presentation.hoodList
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import co.test.myhood.domain.Hood
+import co.test.myhood.interactors.ForceUpdateHoods
 import co.test.myhood.interactors.GetHoods
 import co.test.myhood.presentation.BaseViewModel
 import kotlinx.coroutines.launch
 
-class HoodListViewModel @ViewModelInject constructor(getHoods: GetHoods) : BaseViewModel() {
+class HoodListViewModel @ViewModelInject constructor(
+    private val getHoods: GetHoods,
+    private val forceHoodUpdate: ForceUpdateHoods
+) : BaseViewModel() {
+    
+    val hoodListLiveData: LiveData<List<Hood>> = getHoods().asLiveData(viewModelScope.coroutineContext)
 
-    private val _HoodListLiveData: MutableLiveData<List<Hood>> by lazy {
-        val data = MutableLiveData<List<Hood>>()
+    fun onAddClicked() {
         viewModelScope.launch {
-            data.value = getHoods()
+            forceHoodUpdate()
         }
-        data
     }
-    val hoodListLiveData: LiveData<List<Hood>> = _HoodListLiveData
 }

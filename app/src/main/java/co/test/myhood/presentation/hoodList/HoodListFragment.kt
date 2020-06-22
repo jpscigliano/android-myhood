@@ -9,7 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import co.test.myhood.R
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_list_hood.title
+import kotlinx.android.synthetic.main.fragment_list_hood.button
+import kotlinx.android.synthetic.main.fragment_list_hood.hood
+import kotlinx.android.synthetic.main.fragment_list_hood.hoodFlow
 
 @AndroidEntryPoint
 class HoodListFragment : Fragment() {
@@ -24,7 +26,12 @@ class HoodListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.hoodListLiveData.observe(viewLifecycleOwner, Observer {
-            title.text = it.joinToString { it.name }
+            hood.text = it.joinToString { it.name }
+
         })
+
+        button.setOnClickListener {
+            viewModel.onAddClicked()
+        }
     }
 }
