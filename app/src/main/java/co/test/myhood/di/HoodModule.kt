@@ -14,9 +14,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.components.ApplicationComponent
+import javax.inject.Singleton
 
 @Module(includes = [Declarations::class])
-@InstallIn(ActivityComponent::class)
+@InstallIn(ApplicationComponent::class)
 class HoodModule {
 
 
@@ -26,6 +28,7 @@ class HoodModule {
     @Provides
     fun provideSimpleHoodInteractor(hoodsRepository: HoodsRepository) = ForceUpdateHoods(hoodsRepository)
 
+    @Singleton
     @Provides
     fun provideHoodRepository(
         networkHoodDataSource: RemoteHoodsDataSource,

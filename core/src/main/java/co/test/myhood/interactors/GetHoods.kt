@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 class GetHoods(private val hoodsRepository: HoodsRepository) {
     operator fun invoke(): Flow<Resource<List<Hood>>> {
-        return hoodsRepository.getHoods()
+        return hoodsRepository.hoods
     }
 }

@@ -7,6 +7,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.components.ApplicationComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.Retrofit.Builder
@@ -16,7 +17,7 @@ import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Qualifier
 
 @Module
-@InstallIn(ActivityComponent::class)
+@InstallIn(ApplicationComponent::class)
 class ConnectivityModule {
 
     @Provides
@@ -39,7 +40,7 @@ class ConnectivityModule {
     }
 
     @Provides
-    fun provideHoodAPI(@DigginAPI retrofit: Retrofit) = retrofit.create(HoodsAPI::class.java)
+    fun provideHoodAPI(@DigginAPI retrofit: Retrofit): HoodsAPI = retrofit.create(HoodsAPI::class.java)
 
     @Qualifier
     @Retention(AnnotationRetention.BINARY)

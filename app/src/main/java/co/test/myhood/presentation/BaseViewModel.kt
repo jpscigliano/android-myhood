@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModel
 
 open class BaseViewModel : ViewModel() {
 
-    protected val _Loading = MutableLiveData(Loading(progressLoading = false, linearLoading = false))
+    protected val _Loading = MutableLiveData(Loading(circularLoading = false, linearLoading = false))
     val loading: LiveData<Loading> = _Loading
 
     data class Loading(
-        val progressLoading: Boolean,
+        val circularLoading: Boolean,
         val linearLoading: Boolean
     )
 }
