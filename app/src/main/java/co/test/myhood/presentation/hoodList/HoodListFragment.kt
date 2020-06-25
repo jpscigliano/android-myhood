@@ -6,6 +6,7 @@ import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -29,14 +30,18 @@ class HoodListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.loading.observe(viewLifecycleOwner, Observer { loading ->
+
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer { loading ->
             progress_linear.visibility = if (loading.linearLoading) VISIBLE else INVISIBLE
             progress_circular.visibility = if (loading.circularLoading) VISIBLE else INVISIBLE
 
         })
-        viewModel.hoodListLiveData.observe(viewLifecycleOwner, Observer { hoods ->
+        viewModel.hoodsList.observe(viewLifecycleOwner, Observer { hoods ->
             hood.text = hoods?.joinToString { it.name }
+        })
 
+        viewModel.error.observe(viewLifecycleOwner, Observer {
+            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
         })
 
         button.setOnClickListener {

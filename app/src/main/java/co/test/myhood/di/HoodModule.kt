@@ -9,6 +9,7 @@ import co.test.myhood.framework.dataSource.remote.NetworkHoodsDataSourceImp
 
 import co.test.myhood.interactors.ForceUpdateHoods
 import co.test.myhood.interactors.GetHoods
+
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -27,6 +28,7 @@ class HoodModule {
 
     @Provides
     fun provideSimpleHoodInteractor(hoodsRepository: HoodsRepository) = ForceUpdateHoods(hoodsRepository)
+
 
     @Singleton
     @Provides
