@@ -35,8 +35,8 @@ class HoodListViewModel @ViewModelInject constructor(
 
     val isLoading: LiveData<Loading> = loadHoodsResult.map { resource ->
         Loading(
-            circularLoading = resource is Resource.Loading && resource.data != null,
-            linearLoading = resource is Resource.Loading && resource.data == null
+            circularLoading = resource is Resource.Loading && resource.data == null,
+            linearLoading = resource is Resource.Loading && resource.data != null
         )
     }
     val error: LiveData<String> = loadHoodsResult.switchMap { resource ->

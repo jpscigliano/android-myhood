@@ -8,4 +8,7 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">digginberlin.com</domain>
     </domain-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">api.flickr.com</domain>
+    </domain-config>
 </network-security-config>

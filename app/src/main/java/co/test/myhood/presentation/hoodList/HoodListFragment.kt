@@ -37,7 +37,7 @@ class HoodListFragment : Fragment() {
 
         })
         viewModel.hoodsList.observe(viewLifecycleOwner, Observer { hoods ->
-            hood.text = hoods?.joinToString { it.name }
+            hood.text = hoods?.joinToString { it.name  +" -> " + it.imageUrl  }
         })
 
         viewModel.error.observe(viewLifecycleOwner, Observer {

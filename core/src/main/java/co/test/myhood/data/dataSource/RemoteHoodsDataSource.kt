@@ -5,4 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface RemoteHoodsDataSource {
     suspend fun getHoods(): List<Hood>
+    suspend fun getImageHood(name:String):String
 }

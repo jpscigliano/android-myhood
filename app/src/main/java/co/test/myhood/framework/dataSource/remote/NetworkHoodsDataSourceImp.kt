@@ -15,4 +15,8 @@ class NetworkHoodsDataSourceImp @Inject constructor(
             Hood(it, it)
         }
     }
+
+    override suspend fun getImageHood(name: String): String {
+        TODO("Not yet implemented")
+    }
 }
