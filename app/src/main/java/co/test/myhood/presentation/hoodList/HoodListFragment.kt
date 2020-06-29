@@ -10,10 +10,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import co.test.myhood.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_list_hood.button
-import kotlinx.android.synthetic.main.fragment_list_hood.hood
+import kotlinx.android.synthetic.main.fragment_list_hood.hoods_recyclerView
 import kotlinx.android.synthetic.main.fragment_list_hood.progress_circular
 import kotlinx.android.synthetic.main.fragment_list_hood.progress_linear
 import kotlinx.android.synthetic.main.fragment_list_hood.refresh
@@ -22,6 +23,8 @@ import kotlinx.android.synthetic.main.fragment_list_hood.refresh
 class HoodListFragment : Fragment() {
 
     private val viewModel: HoodListViewModel by viewModels()
+
+    private val hoodListAdapter = HoodsListAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_list_hood, container, false)
@@ -37,7 +40,8 @@ class HoodListFragment : Fragment() {
 
         })
         viewModel.hoodsList.observe(viewLifecycleOwner, Observer { hoods ->
-            hood.text = hoods?.joinToString { it.name  +" -> " + it.imageUrl  }
+            // hood.text = hoods?.joinToString { it.name + " -> " + it.imageUrl }
+            hoodListAdapter.submitList(hoods)
         })
 
         viewModel.error.observe(viewLifecycleOwner, Observer {
@@ -50,5 +54,8 @@ class HoodListFragment : Fragment() {
         refresh.setOnClickListener {
             viewModel.onRefreshClicked()
         }
+
+        hoods_recyclerView.adapter = hoodListAdapter
+        hoods_recyclerView.layoutManager = LinearLayoutManager(context)
     }
 }
