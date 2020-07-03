@@ -5,6 +5,9 @@ import co.test.myhood.data.dataSource.LocalHoodsDataSource
 import co.test.myhood.data.dataSource.RemoteHoodsDataSource
 import co.test.myhood.data.networkBoundResource
 import co.test.myhood.domain.Hood
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 
 class HoodsRepository constructor(
@@ -17,15 +20,18 @@ class HoodsRepository constructor(
         return networkBoundResource(
             query = { localHoodsDataSource.getHoods() },
             fetch = {
-                remoteHoodsDataSource.getHoods().map {
-                    it.imageUrl=locationHoodsRepository.getHoodImageUrl(it.name)
-                    it
+                coroutineScope {
+                    remoteHoodsDataSource.getHoods().map {
+                        async(Dispatchers.IO) {
+                            it.imageUrl = locationHoodsRepository.getImageByLocation(it.name)
+                            it
+                        }
+                    }.map {
+                        it.await()
+                    }
                 }
             },
             saveFetchResult = { items ->
-                items.forEach {
-                    println("LOG"+ it.imageUrl)
-                }
                 localHoodsDataSource.saveHoods(items)
             },
             shouldFetch = { true })

@@ -13,7 +13,7 @@ class LocationHoodsRepository constructor(
         return locationDataSource.getLocationFromHoodName(name)
     }
 
-    suspend fun getHoodImageUrl(name: String): String {
+    suspend fun getImageByLocation(name: String): String {
         val location = getCoordinateLocationFromHood(name)
         return imageHoodDataSource.getImageFromHoodLocation(location)
 
