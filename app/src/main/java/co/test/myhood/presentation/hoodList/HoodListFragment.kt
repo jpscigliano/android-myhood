@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import co.test.myhood.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_list_hood.button
+import kotlinx.android.synthetic.main.fragment_list_hood.errorAnimation
 import kotlinx.android.synthetic.main.fragment_list_hood.hoods_recyclerView
 import kotlinx.android.synthetic.main.fragment_list_hood.hoods_swipeRefresh
 import kotlinx.android.synthetic.main.fragment_list_hood.progress_circular
@@ -48,8 +49,14 @@ class HoodListFragment : Fragment() {
 
         })
 
-        viewModel.error.observe(viewLifecycleOwner, Observer {
+        viewModel.errorMessage.observe(viewLifecycleOwner, Observer {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+        })
+
+        viewModel.errorFetchingData.observe(viewLifecycleOwner, Observer {
+            hoods_recyclerView.visibility = if (!it) VISIBLE else INVISIBLE
+            errorAnimation.visibility = if (it) VISIBLE else INVISIBLE
+
         })
 
         button.setOnClickListener {

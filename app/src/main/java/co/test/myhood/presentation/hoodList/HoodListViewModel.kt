@@ -9,12 +9,9 @@ import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import co.test.myhood.data.Resource
-import co.test.myhood.domain.Hood
 import co.test.myhood.interactors.ForceUpdateHoods
 import co.test.myhood.interactors.GetHoods
 import co.test.myhood.presentation.BaseViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class HoodListViewModel @ViewModelInject constructor(
@@ -35,12 +32,12 @@ class HoodListViewModel @ViewModelInject constructor(
 
     val isLoading: LiveData<Loading> = loadHoodsResult.map { resource ->
         Loading(
-            circularLoading = resource is Resource.Loading && resource.data == null,
-            linearLoading = resource is Resource.Loading && resource.data != null
+            circularLoading = resource is Resource.Loading && resource.data.isNullOrEmpty(),
+            linearLoading = resource is Resource.Loading && !resource.data.isNullOrEmpty()
         )
     }
-    val error: LiveData<String> = loadHoodsResult.switchMap { resource ->
-        liveData<String> {
+    val errorMessage: LiveData<String> = loadHoodsResult.switchMap { resource ->
+        liveData {
             if (resource is Resource.Error) {
                 resource.message?.let {
                     emit(it)
@@ -48,6 +45,13 @@ class HoodListViewModel @ViewModelInject constructor(
             }
         }
     }
+
+    val errorFetchingData: LiveData<Boolean> = loadHoodsResult.switchMap { resource ->
+        liveData {
+            emit(resource is Resource.Error && resource.data.isNullOrEmpty())
+        }
+    }
+
     val hoodsList = loadHoodsResult.switchMap { result ->
         liveData {
             when (result) {
@@ -70,5 +74,4 @@ class HoodListViewModel @ViewModelInject constructor(
     fun onRefreshClicked() {
         _shouldRefresh.postValue(Unit)
     }
-
 }
