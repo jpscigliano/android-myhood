@@ -82,6 +82,9 @@ dependencies {
     //Image loader
     implementation("io.coil-kt:coil:0.11.0")
 
+    //Extras
+    implementation 'com.airbnb.android:lottie:3.4.1'
+
     // Test
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
