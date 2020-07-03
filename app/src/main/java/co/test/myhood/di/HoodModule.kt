@@ -5,12 +5,18 @@ import co.test.myhood.data.dataSource.LocalHoodsDataSource
 import co.test.myhood.data.dataSource.LocationDataSource
 import co.test.myhood.data.dataSource.RemoteHoodsDataSource
 import co.test.myhood.data.repository.HoodsRepository
-import co.test.myhood.data.repository.LocationHoodsRepository
+import co.test.myhood.data.repository.LocationImageHoodsRepository
 import co.test.myhood.di.HoodModule.Declarations
+import co.test.myhood.domain.Location
+import co.test.myhood.dto.local.AddressLocationDTO
+import co.test.myhood.dto.network.FlickrSearchedImageResponse
 import co.test.myhood.framework.dataSource.local.DatabaseHoodsDataSourceImp
 import co.test.myhood.framework.dataSource.local.LocationDataSourceImp
 import co.test.myhood.framework.dataSource.remote.NetworkHoodsDataSourceImp
 import co.test.myhood.framework.dataSource.remote.NetworkPictureHoodsDataSourceImp
+import co.test.myhood.framework.mappers.ImageMapper
+import co.test.myhood.framework.mappers.LocationMapper
+import co.test.myhood.framework.mappers.Mapper
 
 import co.test.myhood.interactors.ForceUpdateHoods
 import co.test.myhood.interactors.GetHoods
@@ -39,9 +45,9 @@ class HoodModule {
     fun provideHoodRepository(
         networkHoodDataSource: RemoteHoodsDataSource,
         localHoodDataSource: LocalHoodsDataSource,
-        pictureRepository: LocationHoodsRepository
+        pictureRepositoryImage: LocationImageHoodsRepository
     ) =
-        HoodsRepository(networkHoodDataSource, localHoodDataSource, pictureRepository)
+        HoodsRepository(networkHoodDataSource, localHoodDataSource, pictureRepositoryImage)
 
     @Singleton
     @Provides
@@ -49,7 +55,7 @@ class HoodModule {
         locationDataSource: LocationDataSource,
         imageHoodDataSource: ImageHoodDataSource
     ) =
-        LocationHoodsRepository(locationDataSource, imageHoodDataSource)
+        LocationImageHoodsRepository(locationDataSource, imageHoodDataSource)
 
     @Module
     @InstallIn(ActivityComponent::class)
@@ -66,6 +72,12 @@ class HoodModule {
 
         @Binds
         fun provideImageHoodDataSource(imageHoodDataSource: NetworkPictureHoodsDataSourceImp): ImageHoodDataSource
+
+        @Binds
+        fun bindFlickrImageToUrlMapper(flickerImageToURLMapper: ImageMapper.FlickrSearchedImageToURLMapper): Mapper<FlickrSearchedImageResponse, String>
+
+        @Binds
+        fun bindAddressLocationDTOToLocationMapper(locationMapper: LocationMapper.AddressToLocationMapper): Mapper<AddressLocationDTO, Location>
     }
 }
 

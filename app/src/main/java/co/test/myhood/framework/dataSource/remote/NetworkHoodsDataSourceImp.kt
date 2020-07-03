@@ -11,12 +11,8 @@ class NetworkHoodsDataSourceImp @Inject constructor(
 
     override suspend fun getHoods(): List<Hood> {
         return hoodsAPI.fetchHoods().map {
-            //Todo use a mapper
             Hood(it, it)
         }
     }
 
-    override suspend fun getImageHood(name: String): String {
-        TODO("Not yet implemented")
-    }
 }

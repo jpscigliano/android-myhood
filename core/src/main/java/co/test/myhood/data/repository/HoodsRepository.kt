@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 class HoodsRepository constructor(
     private val remoteHoodsDataSource: RemoteHoodsDataSource,
     private val localHoodsDataSource: LocalHoodsDataSource,
-    private val locationHoodsRepository: LocationHoodsRepository
+    private val locationImageHoodsRepository: LocationImageHoodsRepository
 ) {
 
     fun getHoods(): Flow<Resource<List<Hood>>> {
@@ -23,7 +23,7 @@ class HoodsRepository constructor(
                 coroutineScope {
                     remoteHoodsDataSource.getHoods().map {
                         async(Dispatchers.IO) {
-                            it.imageUrl = locationHoodsRepository.getImageByLocation(it.name)
+                            it.imageUrl = locationImageHoodsRepository.getImageByLocationName(it.name)
                             it
                         }
                     }.map {
@@ -35,10 +35,6 @@ class HoodsRepository constructor(
                 localHoodsDataSource.saveHoods(items)
             },
             shouldFetch = { true })
-    }
-
-    suspend fun getImageOfHoods(name: String): String {
-        return remoteHoodsDataSource.getImageHood(name)
     }
 
     suspend fun forceHoodUpdate() {

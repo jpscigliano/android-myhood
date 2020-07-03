@@ -4,18 +4,17 @@ import co.test.myhood.data.dataSource.ImageHoodDataSource
 import co.test.myhood.data.dataSource.LocationDataSource
 import co.test.myhood.domain.Location
 
-class LocationHoodsRepository constructor(
+class LocationImageHoodsRepository constructor(
     private val locationDataSource: LocationDataSource,
     private val imageHoodDataSource: ImageHoodDataSource
 ) {
 
-    private suspend fun getCoordinateLocationFromHood(name: String): Location {
-        return locationDataSource.getLocationFromHoodName(name)
+    suspend fun getImageByLocationName(name: String): String {
+        val location = getCoordinateLocationFromHoodName(name)
+        return imageHoodDataSource.getImageFromHoodLocation(location)
     }
 
-    suspend fun getImageByLocation(name: String): String {
-        val location = getCoordinateLocationFromHood(name)
-        return imageHoodDataSource.getImageFromHoodLocation(location)
-
+    private suspend fun getCoordinateLocationFromHoodName(name: String): Location {
+        return locationDataSource.getLocationFromHoodName(name)
     }
 }
