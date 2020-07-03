@@ -35,7 +35,7 @@ class HoodsListAdapter : ListAdapter<Hood, HoodsViewHolder>(HoodItemDiffCallback
     }
 
     class HoodItemDiffCallback : DiffUtil.ItemCallback<Hood>() {
-        override fun areItemsTheSame(oldItem: Hood, newItem: Hood): Boolean = oldItem == newItem
+        override fun areItemsTheSame(oldItem: Hood, newItem: Hood): Boolean = oldItem.name==newItem.name
 
         override fun areContentsTheSame(oldItem: Hood, newItem: Hood): Boolean = oldItem == newItem
     }
