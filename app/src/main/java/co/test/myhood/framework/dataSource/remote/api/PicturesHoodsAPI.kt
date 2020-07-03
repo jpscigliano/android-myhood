@@ -15,7 +15,7 @@ interface PicturesHoodsAPI {
     @GET("services/rest")
     suspend fun searchPictureHood2(
         @Query("method") method: String = "flickr.photos.search",
-        @Query("per_page") perPage: Int = 1,
+        @Query("per_page") perPage: Int = 100,
         @Query("lat") lat: String,
         @Query("lon") long: String
     ): FlickrSearchedImageResponse
