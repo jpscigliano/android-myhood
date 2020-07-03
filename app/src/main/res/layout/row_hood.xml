@@ -22,7 +22,7 @@
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:alpha="0.7"
+        android:alpha="0.6"
         android:background="@color/grey"
         app:layout_constraintBottom_toBottomOf="@id/hood_imageView"
         app:layout_constraintEnd_toEndOf="@+id/hood_imageView"

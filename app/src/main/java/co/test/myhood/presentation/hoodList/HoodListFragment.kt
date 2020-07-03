@@ -15,6 +15,7 @@ import co.test.myhood.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_list_hood.button
 import kotlinx.android.synthetic.main.fragment_list_hood.hoods_recyclerView
+import kotlinx.android.synthetic.main.fragment_list_hood.hoods_swipeRefresh
 import kotlinx.android.synthetic.main.fragment_list_hood.progress_circular
 import kotlinx.android.synthetic.main.fragment_list_hood.progress_linear
 import kotlinx.android.synthetic.main.fragment_list_hood.refresh
@@ -37,11 +38,14 @@ class HoodListFragment : Fragment() {
         viewModel.isLoading.observe(viewLifecycleOwner, Observer { loading ->
             progress_linear.visibility = if (loading.linearLoading) VISIBLE else INVISIBLE
             progress_circular.visibility = if (loading.circularLoading) VISIBLE else INVISIBLE
+            if (!loading.linearLoading && !loading.circularLoading) {
+                hoods_swipeRefresh.isRefreshing = false
+            }
 
         })
         viewModel.hoodsList.observe(viewLifecycleOwner, Observer { hoods ->
-            // hood.text = hoods?.joinToString { it.name + " -> " + it.imageUrl }
             hoodListAdapter.submitList(hoods)
+
         })
 
         viewModel.error.observe(viewLifecycleOwner, Observer {
@@ -57,5 +61,9 @@ class HoodListFragment : Fragment() {
 
         hoods_recyclerView.adapter = hoodListAdapter
         hoods_recyclerView.layoutManager = LinearLayoutManager(context)
+        hoods_recyclerView.itemAnimator = null
+        hoods_swipeRefresh.setOnRefreshListener {
+            viewModel.onRefreshClicked()
+        }
     }
 }
